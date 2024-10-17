@@ -1,0 +1,6 @@
+@prof_edna_teles_shop_api_HostAddress = http://localhost:5244
+
+GET {{prof_edna_teles_shop_api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
