@@ -36,4 +36,21 @@ public class User
     }
 
     public User() {}
+
+    public User(long id, User user)
+    {
+        Id = id;
+        Name = user.Name;
+        Email = user.Email;
+        Password = user.Password;
+        Products = user.Products;
+    }
+
+    public User(User user)
+    {
+        Name = user.Name;
+        Email = user.Email;
+        Password = user.Password;
+        Products = user.Products;
+    }
 }
