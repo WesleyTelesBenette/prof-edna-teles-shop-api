@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using prof_edna_teles_shop_api.DTOs;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace prof_edna_teles_shop_api.Models;
@@ -7,7 +8,6 @@ namespace prof_edna_teles_shop_api.Models;
 public class User
 {
     [Key]
-    [Required(ErrorMessage = "O Id é obrigatório.")]
     [Range(1, long.MaxValue, ErrorMessage = "O Id deve ser um número positivo.")]
     public long Id { get; set; }
 
@@ -37,20 +37,11 @@ public class User
 
     public User() {}
 
-    public User(long id, User user)
-    {
-        Id = id;
-        Name = user.Name;
-        Email = user.Email;
-        Password = user.Password;
-        Products = user.Products;
-    }
-
-    public User(User user)
+    public User(UserPostDTO user)
     {
         Name = user.Name;
         Email = user.Email;
         Password = user.Password;
-        Products = user.Products;
+        Products = [];
     }
 }
