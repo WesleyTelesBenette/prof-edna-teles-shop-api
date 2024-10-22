@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using prof_edna_teles_shop_api.DTOs;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using prof_edna_teles_shop_api.Data.Repositories.Interfaces;
 using prof_edna_teles_shop_api.Models;
 
 namespace prof_edna_teles_shop_api.Data.Repositories;
@@ -15,17 +16,20 @@ public class UserRepository : IUserRepository
 
     public async Task<ICollection<User>> GetAllUsersAsync()
     {
-        return await _db.Users.OrderBy(u => u.Id).ToListAsync();
+        return await _db.Users
+            .OrderBy(u => u.Id)
+            .ToListAsync();
     }
 
     public async Task<User?> GetUserByIdAsync(long id)
     {
-        return await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
+        return await _db.Users
+            .FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<User?> CreateUserAsync(User user)
     {
-        var userCreated = await _db.Users.AddAsync(user);
+        EntityEntry<User> userCreated = await _db.Users.AddAsync(user);
         int createdResult = await _db.SaveChangesAsync();
 
         return (createdResult > 0)
@@ -48,7 +52,7 @@ public class UserRepository : IUserRepository
         return false;
     }
 
-    public async Task<bool> DeleteAsync(User user)
+    public async Task<bool> DeleteUserAsync(User user)
     {
         _db.Remove(user);
         int deletedResult = await _db.SaveChangesAsync();
