@@ -15,17 +15,16 @@ public class UserRepository : IUserRepository
 
     public async Task<ICollection<User>> GetAllUsersAsync()
     {
-        return await _db.Users.ToListAsync(); ;
+        return await _db.Users.OrderBy(u => u.Id).ToListAsync();
     }
 
     public async Task<User?> GetUserByIdAsync(long id)
     {
-        return await _db.Users.FirstOrDefaultAsync(u => u.Id == id); ;
+        return await _db.Users.FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<User?> CreateUserAsync(User user)
     {
-        user.Password = BCrypt.Net.BCrypt.HashPassword(user.Password);
         var userCreated = await _db.Users.AddAsync(user);
         int createdResult = await _db.SaveChangesAsync();
 
@@ -34,21 +33,13 @@ public class UserRepository : IUserRepository
             : null;
     }
 
-    public async Task<bool> UpdateUserAsync(long id, UserPostDTO user)
+    public async Task<bool> UpdateUserAsync(User user)
     {
-        User? userFound = await GetUserByIdAsync(id);
+        User? userFound = await GetUserByIdAsync(user.Id);
 
         if (userFound != null)
         {
-            _db.Users.Attach(userFound);
-
-            userFound.Name = user.Name ?? userFound.Name;
-            userFound.Email = user.Email ?? userFound.Email;
-            userFound.Products = user.Products ?? userFound.Products;
-
-            userFound.Password = (user.Password != null)
-                ? BCrypt.Net.BCrypt.HashPassword(user.Password)
-                : userFound.Password;
+            _db.Entry(userFound).CurrentValues.SetValues(user);
             
             int updatedResult = await _db.SaveChangesAsync();
             return (updatedResult > 0);
@@ -57,18 +48,11 @@ public class UserRepository : IUserRepository
         return false;
     }
 
-    public async Task<bool> DeleteAsync(long id)
+    public async Task<bool> DeleteAsync(User user)
     {
-        User? userFound = await GetUserByIdAsync(id);
+        _db.Remove(user);
+        int deletedResult = await _db.SaveChangesAsync();
 
-        if (userFound != null)
-        {
-            _db.Remove(userFound);
-            int deletedResult = await _db.SaveChangesAsync();
-
-            return (deletedResult > 0);
-        }
-
-        return false;
+        return (deletedResult > 0);
     }
 }
