@@ -29,15 +29,10 @@ public class ProductRepository : IProductRepository
 
     public async Task<ICollection<Product>> GetProductsByIdsAsync(HashSet<long> ids)
     {
-        if ((ids != null) && (ids.Count > 0))
-        {
-            return await _db.Products
-                .Where(p => ids.Contains(p.Id))
-                .OrderBy(p => p.Id)
-                .ToListAsync();
-        }
-
-        return [];
+        return await _db.Products
+            .Where(p => ids.Contains(p.Id))
+            .OrderBy(p => p.Id)
+            .ToListAsync();
     }
 
     public async Task<Product?> CreateProductAsync(Product product)
