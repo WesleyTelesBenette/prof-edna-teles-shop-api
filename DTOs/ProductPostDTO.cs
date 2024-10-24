@@ -1,5 +1,4 @@
-﻿using prof_edna_teles_shop_api.Models;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace prof_edna_teles_shop_api.DTOs;
 
@@ -15,7 +14,7 @@ public class ProductPostDTO
 
     [Required(ErrorMessage = "Pelo menos uma categoria é obrigatória.")]
     [MinLength(1, ErrorMessage = "É necessário fornecer ao menos uma categoria.")]
-    public long[] CategoriesIds { get; set; }
+    public HashSet<long> CategoriesIds { get; set; }
 
     [StringLength(500, ErrorMessage = "A descrição não pode ter mais de 500 caracteres.")]
     public string Description { get; set; }

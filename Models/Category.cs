@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using prof_edna_teles_shop_api.DTOs;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace prof_edna_teles_shop_api.Models;
@@ -29,4 +30,10 @@ public class Category
     }
 
     public Category() { }
+
+    public Category(CategoryPostDTO category)
+    {
+        Name = category.Name;
+        ImageUrl = category.ImageUrl;
+    }
 }

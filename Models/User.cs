@@ -26,15 +26,6 @@ public class User
 
     public ICollection<Product> Products { get; set; }
 
-    public User(int id, string name, string email, string password, Product[] products)
-    {
-        Id = id;
-        Name = name;
-        Email = email;
-        Password = password;
-        Products = products;
-    }
-
     public User() {}
 
     public User(UserPostDTO user)

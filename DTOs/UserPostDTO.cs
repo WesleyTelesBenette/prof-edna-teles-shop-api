@@ -18,14 +18,4 @@ public class UserPostDTO
     public string Password { get; set; }
 
     public ICollection<long>? ProductsId { get; set; } = [];
-
-    public UserPostDTO() {}
-
-    public UserPostDTO(string name, string email, string password, ICollection<long> productsId)
-    {
-        Name = name;
-        Email = email;
-        Password = password;
-        ProductsId = productsId;
-    }
 }

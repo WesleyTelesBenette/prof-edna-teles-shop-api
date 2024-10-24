@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using prof_edna_teles_shop_api.DTOs;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -20,13 +21,7 @@ public class Product
     [Range(0, long.MaxValue, ErrorMessage = "O preço deve ser um valor positivo.")]
     public long PriceInCents { get; set; }
 
-    [Required(ErrorMessage = "A imagem de capa é obrigatória.")]
-    [Url(ErrorMessage = "A imagem de capa deve ser uma URL válida.")]
-    public string CoverImage { get; set; }
-
-    [Required(ErrorMessage = "Pelo menos uma categoria é obrigatória.")]
-    [MinLength(1, ErrorMessage = "É necessário fornecer ao menos uma categoria.")]
-    public Category[] Categories { get; set; }
+    
 
     [Required(ErrorMessage = "A descrição é obrigatória.")]
     [StringLength(500, ErrorMessage = "A descrição não pode ter mais de 500 caracteres.")]
@@ -51,33 +46,26 @@ public class Product
 
     public ICollection<Product> IncludeGames { get; set; }
 
+    [Required(ErrorMessage = "Pelo menos uma categoria é obrigatória.")]
+    [MinLength(1, ErrorMessage = "É necessário fornecer ao menos uma categoria.")]
+    public ICollection<Category> Categories { get; set; }
+
     public long UserId { get; set; }
     public User User { get; set; }
 
-    public Product (string name,
-        long priceInCents,
-        string coverImage,
-        Category[] categories,
-        string description,
-        string[] images,
-        string type,
-        long? totalPieces,
-        long? totalPlayers,
-        long? totalGames,
-        Product[]? includeGames
-    ) {
-        Name = name;
-        PriceInCents = priceInCents;
-        CoverImage = coverImage;
-        Categories = categories;
-        Description = description;
-        Images = images;
-        Type = type;
-        TotalPieces = totalPieces;
-        TotalPlayers = totalPlayers;
-        TotalGames = totalGames;
-        IncludeGames = includeGames ?? [];
-    }
-
     public Product() { }
+
+    public Product(ProductPostDTO product)
+    {
+        Name = product.Name;
+        PriceInCents = product.PriceInCents;
+        Categories = []; //
+        Description = product.Description;
+        Images = product.Images;
+        Type = product.Type;
+        TotalPieces = product.TotalPieces;
+        TotalPlayers = product.TotalPlayers;
+        TotalGames = product.TotalGames;
+        IncludeGames = [];
+    }
 }
