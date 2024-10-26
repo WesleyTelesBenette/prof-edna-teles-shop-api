@@ -17,6 +17,7 @@ public class UserRepository : IUserRepository
     public async Task<ICollection<User>> GetAllUsersAsync()
     {
         return await _db.Users
+            .AsNoTracking()
             .OrderBy(u => u.Id)
             .ToListAsync();
     }
@@ -24,6 +25,7 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetUserByIdAsync(long id)
     {
         return await _db.Users
+            .AsNoTracking()
             .FirstOrDefaultAsync(u => u.Id == id);
     }
 

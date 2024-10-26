@@ -17,6 +17,7 @@ public class CategoryRepository : ICategoryRepository
     public async Task<ICollection<Category>> GetAllCategorysAsync()
     {
         return await _db.Categories
+            .AsNoTracking()
             .OrderBy(c => c.Id)
             .ToListAsync();
     }
@@ -24,12 +25,14 @@ public class CategoryRepository : ICategoryRepository
     public async Task<Category?> GetCategoryByIdAsync(long id)
     {
         return await _db.Categories
+            .AsNoTracking()
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
     public async Task<ICollection<Category>> GetCategorysByIdsAsync(HashSet<long> ids)
     {
         return await _db.Categories
+            .AsNoTracking()
             .Where(c => ids.Contains(c.Id))
             .OrderBy(c => c.Id)
             .ToListAsync();

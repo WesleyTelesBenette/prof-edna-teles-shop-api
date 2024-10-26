@@ -17,6 +17,7 @@ public class ProductRepository : IProductRepository
     public async Task<ICollection<Product>> GetAllProductsAsync()
     {
         return await _db.Products
+            .AsNoTracking()
             .OrderBy(p => p.Id)
             .ToListAsync();
     }
@@ -24,12 +25,14 @@ public class ProductRepository : IProductRepository
     public async Task<Product?> GetProductByIdAsync(long id)
     {
         return await _db.Products
+            .AsNoTracking()
             .FirstOrDefaultAsync(p => p.Id == id);
     }
 
     public async Task<ICollection<Product>> GetProductsByIdsAsync(HashSet<long> ids)
     {
         return await _db.Products
+            .AsNoTracking()
             .Where(p => ids.Contains(p.Id))
             .OrderBy(p => p.Id)
             .ToListAsync();
