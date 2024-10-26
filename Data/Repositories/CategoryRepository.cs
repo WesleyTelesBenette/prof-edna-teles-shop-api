@@ -14,7 +14,7 @@ public class CategoryRepository : ICategoryRepository
         _db = db;
     }
 
-    public async Task<ICollection<Category>> GetAllCategorysAsync()
+    public async Task<ICollection<Category>> GetAllCategoriesAsync()
     {
         return await _db.Categories
             .AsNoTracking()

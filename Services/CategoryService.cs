@@ -15,11 +15,11 @@ public class CategoryService : ICategoryService
         _categoryRep = categoryRep;
     }
 
-    public async Task<ICollection<Category>> GetAllCategoryAsync()
+    public async Task<ICollection<Category>> GetAllCategoriesAsync()
     {
         try
         {
-            return await _categoryRep.GetAllCategorysAsync();
+            return await _categoryRep.GetAllCategoriesAsync();
         }
         catch (SqlException ex)
         {
