@@ -17,7 +17,7 @@ public class ProductService : IProductService
         _categoryService = categoryService;
     }
 
-    public async Task<ICollection<Product>> GetAllProductAsync()
+    public async Task<ICollection<Product>> GetAllProductsAsync()
     {
         try
         {

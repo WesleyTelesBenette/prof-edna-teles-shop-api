@@ -5,7 +5,7 @@ namespace prof_edna_teles_shop_api.Services.Interfaces;
 
 public interface IProductService
 {
-    public Task<ICollection<Product>> GetAllProductAsync();
+    public Task<ICollection<Product>> GetAllProductsAsync();
     public Task<Product?> GetProductByIdAsync(long id);
     public Task<ICollection<Product>> GetProductsByIdsAsync(HashSet<long> ids);
     public Task<Product?> CreateProductAsync(ProductPostDTO product);
