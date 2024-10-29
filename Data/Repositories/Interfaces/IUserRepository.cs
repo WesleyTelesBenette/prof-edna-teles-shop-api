@@ -7,6 +7,7 @@ public interface IUserRepository
 {
     public Task<ICollection<User>> GetAllUsersAsync();
     public Task<User?> GetUserByIdAsync(long id);
+    public Task<ICollection<Product>> GetProductsPurchased(string email);
     public Task<User?> CreateUserAsync(User user);
     public Task<bool> UpdateUserAsync(User user);
     public Task<bool> DeleteUserAsync(User user);

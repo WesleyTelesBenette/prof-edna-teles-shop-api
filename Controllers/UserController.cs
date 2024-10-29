@@ -35,6 +35,16 @@ public class UserController : ControllerBase
             : NotFound();
     }
 
+    [HttpPost("{email}/products")]
+    public async Task<IActionResult> GetProductsPurchasedByUser(string email)
+    {
+        var products = await _userService.GetProductsPurchased(email);
+
+        return (products.Count > 0)
+            ? Ok(products)
+            : NoContent();
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateUserAsync([FromBody] UserPostDTO newUser)
     {

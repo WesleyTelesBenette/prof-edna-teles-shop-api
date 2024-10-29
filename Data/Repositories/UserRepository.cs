@@ -29,6 +29,15 @@ public class UserRepository : IUserRepository
             .FirstOrDefaultAsync(u => u.Id == id);
     }
 
+    public async Task<ICollection<Product>> GetProductsPurchased(string email)
+    {
+        User? user = await _db.Users
+            .AsNoTracking()
+            .FirstOrDefaultAsync(u => u.Email.Equals(email));
+
+        return user?.Products ?? [];
+    }
+
     public async Task<User?> CreateUserAsync(User user)
     {
         EntityEntry<User> userCreated = await _db.Users.AddAsync(user);

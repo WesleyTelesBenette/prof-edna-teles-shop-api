@@ -9,12 +9,12 @@ namespace prof_edna_teles_shop_api.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _userRep;
-    private readonly IProductService _productService;
+    private readonly IProductRepository _productRep;
 
-    public UserService(IUserRepository userRep, IProductService productService)
+    public UserService(IUserRepository userRep, IProductRepository productRep)
     {
         _userRep = userRep;
-        _productService = productService;
+        _productRep = productRep;
     }
 
     public async Task<ICollection<UserResponseDTO>> GetAllUsersAsync()
@@ -69,6 +69,34 @@ public class UserService : IUserService
         }
     }
 
+    public async Task<ICollection<ProductResponseDTO>> GetProductsPurchased(string email)
+    {
+        try
+        {
+            ICollection<Product> products = await _userRep.GetProductsPurchased(email);
+            ICollection<ProductResponseDTO> productsDTOs = [];
+
+            foreach (var product in products)
+            {
+                productsDTOs.Add(new(product));
+            }
+
+            return productsDTOs;
+        }
+        catch (SqlException ex)
+        {
+            throw new Exception("Falha ao acessar o banco de dados. Verifique a conectividade.", ex);
+        }
+        catch (TimeoutException ex)
+        {
+            throw new TimeoutException("O tempo de execução excedeu o limite permitido.", ex);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Ocorreu um erro ao tentar buscar os produtos do usuário.", e);
+        }
+    }
+
     public async Task<UserResponseDTO?> CreateUserAsync(UserPostDTO user)
     {
         try
@@ -114,7 +142,7 @@ public class UserService : IUserService
                     : userFound.Password;
 
                 userFound.Products = (user.ProductsId != null)
-                    ? await _productService.GetProductsByIdsAsync(user.ProductsId)
+                    ? await _productRep.GetProductsByIdsAsync(user.ProductsId)
                     : userFound.Products;
 
                 return await _userRep.UpdateUserAsync(userFound);
