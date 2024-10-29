@@ -17,11 +17,19 @@ public class UserService : IUserService
         _productService = productService;
     }
 
-    public async Task<ICollection<User>> GetAllUsersAsync()
+    public async Task<ICollection<UserResponseDTO>> GetAllUsersAsync()
     {
         try
         {
-            return await _userRep.GetAllUsersAsync();
+            ICollection<User> users = await _userRep.GetAllUsersAsync();
+            ICollection<UserResponseDTO> usersDTOs = [];
+
+            foreach (var user in users)
+            {
+                usersDTOs.Add(new(user));
+            }
+
+            return usersDTOs;
         }
         catch (SqlException ex)
         {
@@ -37,11 +45,15 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<User?> GetUserByIdAsync(long id)
+    public async Task<UserResponseDTO?> GetUserByIdAsync(long id)
     {
         try
         {
-            return await _userRep.GetUserByIdAsync(id);
+            User? user = await _userRep.GetUserByIdAsync(id);
+
+            return (user != null)
+                ? new UserResponseDTO(user)
+                : null;
         }
         catch (SqlException ex)
         {
@@ -57,7 +69,7 @@ public class UserService : IUserService
         }
     }
 
-    public async Task<User?> CreateUserAsync(UserPostDTO user)
+    public async Task<UserResponseDTO?> CreateUserAsync(UserPostDTO user)
     {
         try
         {
@@ -66,9 +78,11 @@ public class UserService : IUserService
                 Password = BCrypt.Net.BCrypt.HashPassword(user.Password)
             };
 
-            var createdUser = await _userRep.CreateUserAsync(newUser);
+            User? createdUser = await _userRep.CreateUserAsync(newUser);
 
-            return createdUser ?? throw new InvalidOperationException("Falha ao criar usuário.");
+            return (createdUser != null)
+                ? new UserResponseDTO(createdUser)
+                : throw new InvalidOperationException("Falha ao criar usuário.");
         }
         catch (SqlException ex)
         {

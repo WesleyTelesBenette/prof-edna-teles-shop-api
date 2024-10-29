@@ -9,19 +9,27 @@ namespace prof_edna_teles_shop_api.Services;
 public class ProductService : IProductService
 {
     private readonly IProductRepository _productRep;
-    private readonly ICategoryService _categoryService;
+    private readonly ICategoryRepository _categoryRep;
 
-    public ProductService(IProductRepository productRep, ICategoryService categoryService)
+    public ProductService(IProductRepository productRep, ICategoryRepository categoryRep)
     {
         _productRep = productRep;
-        _categoryService = categoryService;
+        _categoryRep = categoryRep;
     }
 
-    public async Task<ICollection<Product>> GetAllProductsAsync()
+    public async Task<ICollection<ProductResponseDTO>> GetAllProductsAsync()
     {
         try
         {
-            return await _productRep.GetAllProductsAsync();
+            ICollection<Product> products = await _productRep.GetAllProductsAsync();
+            ICollection<ProductResponseDTO> productsDTOs = [];
+
+            foreach (var product in products)
+            {
+                productsDTOs.Add(new(product));
+            }
+
+            return productsDTOs;
         }
         catch (SqlException ex)
         {
@@ -37,11 +45,15 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<Product?> GetProductByIdAsync(long id)
+    public async Task<ProductResponseDTO?> GetProductByIdAsync(long id)
     {
         try
         {
-            return await _productRep.GetProductByIdAsync(id);
+            Product? product = await _productRep.GetProductByIdAsync(id);
+
+            return (product != null)
+                ? new ProductResponseDTO(product)
+                : null;
         }
         catch (SqlException ex)
         {
@@ -57,11 +69,19 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<ICollection<Product>> GetProductsByIdsAsync(HashSet<long> ids)
+    public async Task<ICollection<ProductResponseDTO>> GetProductsByIdsAsync(HashSet<long> ids)
     {
         try
         {
-            return await _productRep.GetProductsByIdsAsync(ids);
+            ICollection<Product> products = await _productRep.GetProductsByIdsAsync(ids);
+            ICollection<ProductResponseDTO> productsDTOs = [];
+
+            foreach (var product in products)
+            {
+                productsDTOs.Add(new(product));
+            }
+
+            return productsDTOs;
         }
         catch (SqlException ex)
         {
@@ -77,18 +97,20 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<Product?> CreateProductAsync(ProductPostDTO product)
+    public async Task<ProductResponseDTO?> CreateProductAsync(ProductPostDTO product)
     {
         try
         {
             Product newProduct = new(product)
             {
-                Categories = await _categoryService.GetCategoriesByIdsAsync(product.CategoriesIds)
+                Categories = await _categoryRep.GetCategoriesByIdsAsync(product.CategoriesIds)
             };
 
             var createdProduct = await _productRep.CreateProductAsync(newProduct);
 
-            return createdProduct ?? throw new InvalidOperationException("Falha ao criar produto.");
+            return (createdProduct != null)
+                ? new ProductResponseDTO(createdProduct)
+                : throw new InvalidOperationException("Falha ao criar produto.");
         }
         catch (SqlException ex)
         {
@@ -122,14 +144,14 @@ public class ProductService : IProductService
                 productFound.TotalGames   = product.TotalGames   ?? productFound.TotalGames;
 
                 productFound.Categories = (product.CategoriesIds != null)
-                    ? await _categoryService.GetCategoriesByIdsAsync(product.CategoriesIds)
+                    ? await _categoryRep.GetCategoriesByIdsAsync(product.CategoriesIds)
                     : productFound.Categories;
 
                 productFound.IncludeGames = (product.IncludeGamesIds != null)
-                    ? await GetProductsByIdsAsync(product.IncludeGamesIds)
+                    ? await _productRep.GetProductsByIdsAsync(product.IncludeGamesIds)
                     : productFound.IncludeGames;
 
-                   return await _productRep.UpdateProductAsync(productFound);
+                return await _productRep.UpdateProductAsync(productFound);
             }
 
             throw new KeyNotFoundException("Produto com o ID fornecido não foi encontrado.");

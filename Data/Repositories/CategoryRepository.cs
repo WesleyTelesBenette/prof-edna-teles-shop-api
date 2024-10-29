@@ -29,7 +29,7 @@ public class CategoryRepository : ICategoryRepository
             .FirstOrDefaultAsync(c => c.Id == id);
     }
 
-    public async Task<ICollection<Category>> GetCategorysByIdsAsync(HashSet<long> ids)
+    public async Task<ICollection<Category>> GetCategoriesByIdsAsync(HashSet<long> ids)
     {
         return await _db.Categories
             .AsNoTracking()

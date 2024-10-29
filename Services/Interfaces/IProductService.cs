@@ -1,14 +1,13 @@
 ﻿using prof_edna_teles_shop_api.DTOs;
-using prof_edna_teles_shop_api.Models;
 
 namespace prof_edna_teles_shop_api.Services.Interfaces;
 
 public interface IProductService
 {
-    public Task<ICollection<Product>> GetAllProductsAsync();
-    public Task<Product?> GetProductByIdAsync(long id);
-    public Task<ICollection<Product>> GetProductsByIdsAsync(HashSet<long> ids);
-    public Task<Product?> CreateProductAsync(ProductPostDTO product);
+    public Task<ICollection<ProductResponseDTO>> GetAllProductsAsync();
+    public Task<ProductResponseDTO?> GetProductByIdAsync(long id);
+    public Task<ICollection<ProductResponseDTO>> GetProductsByIdsAsync(HashSet<long> ids);
+    public Task<ProductResponseDTO?> CreateProductAsync(ProductPostDTO product);
     public Task<bool> UpdateProductAsync(ProductPutDTO product);
     public Task<bool> DeleteProductByIdAsync(long id);
 }

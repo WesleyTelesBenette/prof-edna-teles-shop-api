@@ -15,11 +15,19 @@ public class CategoryService : ICategoryService
         _categoryRep = categoryRep;
     }
 
-    public async Task<ICollection<Category>> GetAllCategoriesAsync()
+    public async Task<ICollection<CategoryResponseDTO>> GetAllCategoriesAsync()
     {
         try
         {
-            return await _categoryRep.GetAllCategoriesAsync();
+            ICollection<Category> categories = await _categoryRep.GetAllCategoriesAsync();
+            ICollection<CategoryResponseDTO> categoriesDTOs = [];
+
+            foreach (var category in categories)
+            {
+                categoriesDTOs.Add(new(category));
+            }
+
+            return categoriesDTOs;
         }
         catch (SqlException ex)
         {
@@ -35,11 +43,15 @@ public class CategoryService : ICategoryService
         }
     }
 
-    public async Task<Category?> GetCategoryByIdAsync(long id)
+    public async Task<CategoryResponseDTO?> GetCategoryByIdAsync(long id)
     {
         try
         {
-            return await _categoryRep.GetCategoryByIdAsync(id);
+            Category? category = await _categoryRep.GetCategoryByIdAsync(id);
+
+            return (category != null)
+                ? new CategoryResponseDTO(category)
+                : null;
         }
         catch (SqlException ex)
         {
@@ -55,11 +67,19 @@ public class CategoryService : ICategoryService
         }
     }
 
-    public async Task<ICollection<Category>> GetCategoriesByIdsAsync(HashSet<long> ids)
+    public async Task<ICollection<CategoryResponseDTO>> GetCategoriesByIdsAsync(HashSet<long> ids)
     {
         try
         {
-            return await _categoryRep.GetCategorysByIdsAsync(ids);
+            ICollection<Category> categories = await _categoryRep.GetCategorysByIdsAsync(ids);
+            ICollection<CategoryResponseDTO> categoriesDTOs = [];
+
+            foreach (var category in categories)
+            {
+                categoriesDTOs.Add(new(category));
+            }
+
+            return categoriesDTOs;
         }
         catch (SqlException ex)
         {
@@ -75,14 +95,16 @@ public class CategoryService : ICategoryService
         }
     }
 
-    public async Task<Category?> CreateCategoryAsync(CategoryPostDTO category)
+    public async Task<CategoryResponseDTO?> CreateCategoryAsync(CategoryPostDTO category)
     {
         try
         {
             Category newCategory = new(category);
             var createdCategory = await _categoryRep.CreateCategoryAsync(newCategory);
 
-            return createdCategory ?? throw new InvalidOperationException("Falha ao criar categoria.");
+            return (createdCategory != null) 
+                ? new CategoryResponseDTO(createdCategory)
+                : throw new InvalidOperationException("Falha ao criar categoria.");
         }
         catch (SqlException ex)
         {
