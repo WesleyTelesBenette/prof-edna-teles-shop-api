@@ -8,6 +8,9 @@ using prof_edna_teles_shop_api.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//Variáveis de Ambiente
+builder.Configuration.AddEnvironmentVariables();
+
 //CORS
 builder.Services.AddCors(options =>
 {
