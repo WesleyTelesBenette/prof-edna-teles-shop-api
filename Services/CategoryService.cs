@@ -71,7 +71,7 @@ public class CategoryService : ICategoryService
     {
         try
         {
-            ICollection<Category> categories = await _categoryRep.GetCategorysByIdsAsync(ids);
+            ICollection<Category> categories = await _categoryRep.GetCategoriesByIdsAsync(ids);
             ICollection<CategoryResponseDTO> categoriesDTOs = [];
 
             foreach (var category in categories)
