@@ -12,8 +12,8 @@ using prof_edna_teles_shop_api.Data;
 namespace prof_edna_teles_shop_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241018012540_AddModels")]
-    partial class AddModels
+    [Migration("20241030134139_CreatedTables")]
+    partial class CreatedTables
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,21 +24,6 @@ namespace prof_edna_teles_shop_api.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("CategoryProduct", b =>
-                {
-                    b.Property<long>("CategoriesId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("ProductsId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("CategoriesId", "ProductsId");
-
-                    b.HasIndex("ProductsId");
-
-                    b.ToTable("CategoryProduct");
-                });
 
             modelBuilder.Entity("prof_edna_teles_shop_api.Models.Category", b =>
                 {
@@ -57,7 +42,12 @@ namespace prof_edna_teles_shop_api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
+                    b.Property<long?>("ProductId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("prof_category");
                 });
@@ -69,10 +59,6 @@ namespace prof_edna_teles_shop_api.Migrations
                         .HasColumnType("bigint");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("CoverImage")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -107,7 +93,7 @@ namespace prof_edna_teles_shop_api.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("UserId")
+                    b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -147,19 +133,12 @@ namespace prof_edna_teles_shop_api.Migrations
                     b.ToTable("prof_user");
                 });
 
-            modelBuilder.Entity("CategoryProduct", b =>
+            modelBuilder.Entity("prof_edna_teles_shop_api.Models.Category", b =>
                 {
-                    b.HasOne("prof_edna_teles_shop_api.Models.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("prof_edna_teles_shop_api.Models.Product", null)
-                        .WithMany()
-                        .HasForeignKey("ProductsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithMany("Categories")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("prof_edna_teles_shop_api.Models.Product", b =>
@@ -168,17 +147,16 @@ namespace prof_edna_teles_shop_api.Migrations
                         .WithMany("IncludeGames")
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("prof_edna_teles_shop_api.Models.User", "User")
+                    b.HasOne("prof_edna_teles_shop_api.Models.User", null)
                         .WithMany("Products")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("prof_edna_teles_shop_api.Models.Product", b =>
                 {
+                    b.Navigation("Categories");
+
                     b.Navigation("IncludeGames");
                 });
 

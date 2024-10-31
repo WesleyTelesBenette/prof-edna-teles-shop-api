@@ -27,6 +27,6 @@ public class UserResponseDTO
         Id = user.Id;
         Name = user.Name;
         Email = user.Email;
-        ProductsIds = user.Products.Select(p => p.Id).ToList() ?? [];
+        ProductsIds = user.Products?.Select(p => p.Id).ToList() ?? [];
     }
 }

@@ -8,6 +8,7 @@ namespace prof_edna_teles_shop_api.Models;
 public class User
 {
     [Key]
+    [Required(ErrorMessage = "O Id é obrigatório.")]
     [Range(1, long.MaxValue, ErrorMessage = "O Id deve ser um número positivo.")]
     public long Id { get; set; }
 

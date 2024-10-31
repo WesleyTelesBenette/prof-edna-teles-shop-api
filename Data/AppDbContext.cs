@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿      using Microsoft.EntityFrameworkCore;
 using prof_edna_teles_shop_api.Models;
 
 namespace prof_edna_teles_shop_api.Data;
@@ -15,12 +15,13 @@ public class AppDbContext : DbContext
     {
         modelBuilder.Entity<Product>()
             .HasMany(p => p.Categories)
-            .WithMany(c => c.Products);
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
 
         modelBuilder.Entity<User>()
             .HasMany(u => u.Products)
-            .WithOne(p => p.User)
-            .HasForeignKey(p => p.UserId);
+            .WithOne()
+            .OnDelete(DeleteBehavior.Cascade);
 
         base.OnModelCreating(modelBuilder);
     }

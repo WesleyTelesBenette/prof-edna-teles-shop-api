@@ -50,9 +50,6 @@ public class Product
     [MinLength(1, ErrorMessage = "É necessário fornecer ao menos uma categoria.")]
     public ICollection<Category> Categories { get; set; }
 
-    public long UserId { get; set; }
-    public User User { get; set; }
-
     public Product() { }
 
     public Product(ProductPostDTO product)

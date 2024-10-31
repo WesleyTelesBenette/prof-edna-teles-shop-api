@@ -20,15 +20,6 @@ public class Category
     [Url(ErrorMessage = "A URL da imagem deve ser válida.")]
     public string ImageUrl { get; set; }
 
-    public ICollection<Product> Products { get; set; }
-
-    public Category(string name, string imageUrl, ICollection<Product> products)
-    {
-        Name = name;
-        ImageUrl = imageUrl;
-        Products = products;
-    }
-
     public Category() { }
 
     public Category(CategoryPostDTO category)

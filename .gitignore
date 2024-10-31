@@ -1,5 +1,8 @@
 ﻿
 .vs/
-/obj/
-/bin/
+
+obj/
+
+bin/
+
 appsettings.json
