@@ -8,6 +8,23 @@ using prof_edna_teles_shop_api.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("Development", builder =>
+    {
+        builder.AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+    options.AddPolicy("Production", builder =>
+    {
+        builder.WithOrigins("https://localhost")
+            .AllowAnyHeader()
+            .WithMethods("GET", "POST");
+    });
+});
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
@@ -45,6 +62,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Development");
 
 app.UseAuthorization();
 
