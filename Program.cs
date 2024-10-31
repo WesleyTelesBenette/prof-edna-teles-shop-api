@@ -20,12 +20,6 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
-    options.AddPolicy("Production", builder =>
-    {
-        builder.WithOrigins("https://localhost")
-            .AllowAnyHeader()
-            .WithMethods("GET", "POST");
-    });
 });
 
 builder.Services.AddControllers();
@@ -63,8 +57,6 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
     });
 }
-
-app.UseHttpsRedirection();
 
 app.UseCors("Development");
 
