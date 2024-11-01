@@ -1,3 +1,4 @@
+using DotNetEnv;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using prof_edna_teles_shop_api.Data;
@@ -7,6 +8,9 @@ using prof_edna_teles_shop_api.Services;
 using prof_edna_teles_shop_api.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
+
+//Carregar variáveis do .env
+Env.Load();
 
 //Variáveis de Ambiente
 builder.Configuration.AddEnvironmentVariables();
@@ -31,8 +35,9 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 //Database
+var connectionString = builder.Configuration.GetConnectionString("DefaultDatabase");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultDatabaseMigrations")));
+    options.UseNpgsql(connectionString));
 
 //Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
