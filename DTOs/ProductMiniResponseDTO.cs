@@ -12,7 +12,7 @@ public class ProductMiniResponseDTO
 
     public ICollection<long> CategoriesIds { get; set; }
 
-    public string[] Images { get; set; }
+    public string ImageCover { get; set; }
 
     public string Type { get; set; }
 
@@ -23,8 +23,8 @@ public class ProductMiniResponseDTO
         Id = product.Id;
         Name = product.Name;
         PriceInCents = product.PriceInCents;
-        CategoriesIds = product.Categories?.Select(c => c.Id).ToList();
-        Images = product.Images;
+        CategoriesIds = product.Categories.Select(c => c.Id).ToList();
+        ImageCover = product.Images[0];
         Type = product.Type;
     }
 }
