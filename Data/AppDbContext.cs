@@ -13,6 +13,10 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<Category>()
+            .HasIndex(c => c.Name)
+            .IsUnique();
+
         modelBuilder.Entity<Product>()
             .HasMany(p => p.Categories)
             .WithOne()
