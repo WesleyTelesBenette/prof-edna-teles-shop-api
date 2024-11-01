@@ -1,5 +1,4 @@
 ﻿using prof_edna_teles_shop_api.Models;
-using System.ComponentModel.DataAnnotations;
 
 namespace prof_edna_teles_shop_api.DTOs;
 
