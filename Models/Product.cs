@@ -56,7 +56,7 @@ public class Product
     {
         Name = product.Name;
         PriceInCents = product.PriceInCents;
-        Categories = []; //
+        Categories = [];
         Description = product.Description;
         Images = product.Images;
         Type = product.Type;

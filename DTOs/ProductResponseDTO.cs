@@ -24,7 +24,7 @@ public class ProductResponseDTO
 
     public ICollection<long>? IncludeGames { get; set; }
 
-    public ICollection<long> Categories { get; set; }
+    public ICollection<long> CategoriesIds { get; set; }
 
     public ProductResponseDTO() {}
     
@@ -39,7 +39,7 @@ public class ProductResponseDTO
         TotalPieces = product.TotalPieces;
         TotalPlayers = product.TotalPlayers;
         TotalGames = product.TotalGames;
-        IncludeGames = product.IncludeGames.Select(g => g.Id).ToList();
-        Categories = product.Categories.Select(c => c.Id).ToList();
+        IncludeGames = product.IncludeGames?.Select(g => g.Id).ToList();
+        CategoriesIds = product.Categories.Select(c => c.Id).ToList();
     }
 }

@@ -12,7 +12,7 @@ using prof_edna_teles_shop_api.Data;
 namespace prof_edna_teles_shop_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241030134139_CreatedTables")]
+    [Migration("20241101122850_CreatedTables")]
     partial class CreatedTables
     {
         /// <inheritdoc />
