@@ -38,10 +38,15 @@ public class CategoryRepository : ICategoryRepository
             .ToListAsync();
     }
 
+    public async Task<bool> IsRepeatedCategoryName(string name)
+    {
+        return ((await _db.Categories.FirstOrDefaultAsync(c => c.Name == name)) != null);
+    }
+
     public async Task<Category?> CreateCategoryAsync(Category category)
     {
-       EntityEntry<Category> categoryCreated = await _db.Categories.AddAsync(category);
-       int createdResult = await _db.SaveChangesAsync();
+        EntityEntry<Category> categoryCreated = await _db.Categories.AddAsync(category);
+        int createdResult = await _db.SaveChangesAsync();
 
         return (createdResult > 0)
             ? categoryCreated.Entity

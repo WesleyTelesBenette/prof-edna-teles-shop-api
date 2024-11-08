@@ -66,7 +66,7 @@ public class CategoryService : ICategoryService
             throw new Exception("Ocorreu um erro ao tentar buscar a categoria.", e);
         }
     }
-
+ 
     public async Task<ICollection<CategoryResponseDTO>> GetCategoriesByIdsAsync(HashSet<long> ids)
     {
         try
@@ -99,12 +99,23 @@ public class CategoryService : ICategoryService
     {
         try
         {
-            Category newCategory = new(category);
-            var createdCategory = await _categoryRep.CreateCategoryAsync(newCategory);
+            var isRepeatedCategory = await _categoryRep.IsRepeatedCategoryName(category.Name);
 
-            return (createdCategory != null) 
-                ? new CategoryResponseDTO(createdCategory)
-                : throw new InvalidOperationException("Falha ao criar categoria.");
+            if (!isRepeatedCategory)
+            {
+                Category newCategory = new(category);
+                var createdCategory = await _categoryRep.CreateCategoryAsync(newCategory);
+
+                return (createdCategory != null)
+                    ? new CategoryResponseDTO(createdCategory)
+                    : throw new InvalidOperationException("Falha ao criar categoria.");
+            }
+
+            throw new InvalidOperationException("Categoria duplicada.");
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new InvalidOperationException(ex.Message);
         }
         catch (SqlException ex)
         {

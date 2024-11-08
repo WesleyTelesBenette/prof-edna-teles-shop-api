@@ -44,7 +44,7 @@ public class CategoryController : ControllerBase
 
             return (createdCategory != null)
                 ? CreatedAtRoute("GetCategoryByIdAsync", new { id = createdCategory.Id }, createdCategory)
-                : BadRequest("Falha ao criar o catergoria.");
+                : BadRequest("Falha ao criar o categoria.");
         }
 
         return BadRequest(ModelState);

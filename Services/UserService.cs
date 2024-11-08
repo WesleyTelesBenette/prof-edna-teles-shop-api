@@ -112,6 +112,10 @@ public class UserService : IUserService
                 ? new UserResponseDTO(createdUser)
                 : throw new InvalidOperationException("Falha ao criar usuário.");
         }
+        catch (InvalidOperationException ex)
+        {
+            throw new InvalidOperationException(ex.Message);
+        }
         catch (SqlException ex)
         {
             throw new Exception("Falha ao acessar o banco de dados. Verifique a conectividade.", ex);

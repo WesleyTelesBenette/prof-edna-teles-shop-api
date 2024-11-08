@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using prof_edna_teles_shop_api.Data;
 using prof_edna_teles_shop_api.Data.Repositories;
 using prof_edna_teles_shop_api.Data.Repositories.Interfaces;
+using prof_edna_teles_shop_api.Middleware;
 using prof_edna_teles_shop_api.Services;
 using prof_edna_teles_shop_api.Services.Interfaces;
 
@@ -62,6 +63,8 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1");
     });
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors("Development");
 
