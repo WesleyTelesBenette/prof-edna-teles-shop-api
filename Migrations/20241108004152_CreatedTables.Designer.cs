@@ -12,7 +12,7 @@ using prof_edna_teles_shop_api.Data;
 namespace prof_edna_teles_shop_api.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241101122850_CreatedTables")]
+    [Migration("20241108004152_CreatedTables")]
     partial class CreatedTables
     {
         /// <inheritdoc />
@@ -46,6 +46,9 @@ namespace prof_edna_teles_shop_api.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.HasIndex("ProductId");
 

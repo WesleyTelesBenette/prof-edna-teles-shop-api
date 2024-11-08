@@ -21,8 +21,6 @@ public class Product
     [Range(0, long.MaxValue, ErrorMessage = "O preço deve ser um valor positivo.")]
     public long PriceInCents { get; set; }
 
-    
-
     [Required(ErrorMessage = "A descrição é obrigatória.")]
     [StringLength(500, ErrorMessage = "A descrição não pode ter mais de 500 caracteres.")]
     public string Description { get; set; }
@@ -44,11 +42,11 @@ public class Product
     [Range(0, long.MaxValue, ErrorMessage = "O TotalGames deve ser um número positivo.")]
     public long? TotalGames { get; set; }
 
-    public ICollection<Product> IncludeGames { get; set; }
+    public ICollection<Product>? IncludeGames { get; set; }
 
     [Required(ErrorMessage = "Pelo menos uma categoria é obrigatória.")]
     [MinLength(1, ErrorMessage = "É necessário fornecer ao menos uma categoria.")]
-    public ICollection<Category> Categories { get; set; }
+    public ICollection<Category> Categories { get; set; } = [];
 
     public Product() { }
 

@@ -44,6 +44,9 @@ namespace prof_edna_teles_shop_api.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.HasIndex("ProductId");
 
                     b.ToTable("prof_category");

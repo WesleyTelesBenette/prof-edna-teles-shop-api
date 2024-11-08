@@ -81,6 +81,12 @@ namespace prof_edna_teles_shop_api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_prof_category_Name",
+                table: "prof_category",
+                column: "Name",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_prof_category_ProductId",
                 table: "prof_category",
                 column: "ProductId");
