@@ -40,7 +40,8 @@ public class ProductRepository : IProductRepository
 
     public async Task<Product?> CreateProductAsync(Product product)
     {
-        EntityEntry<Product> productCreated = await _db.Products.AddAsync(product);
+        EntityEntry<Product> productCreated = _db.Products.Add(product);
+
         int createdResult = await _db.SaveChangesAsync();
 
         return (createdResult > 0)

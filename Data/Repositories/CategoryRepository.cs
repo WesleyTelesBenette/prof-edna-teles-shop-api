@@ -32,7 +32,6 @@ public class CategoryRepository : ICategoryRepository
     public async Task<ICollection<Category>> GetCategoriesByIdsAsync(HashSet<long> ids)
     {
         return await _db.Categories
-            .AsNoTracking()
             .Where(c => ids.Contains(c.Id))
             .OrderBy(c => c.Id)
             .ToListAsync();

@@ -12,7 +12,7 @@ public class ProductResponseDTO
 
     public string Description { get; set; }
 
-    public string[] Images { get; set; }
+    public List<string> Images { get; set; }
 
     public string Type { get; set; }
 

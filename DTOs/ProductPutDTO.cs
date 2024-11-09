@@ -21,7 +21,7 @@ public class ProductPutDTO
     public string? Description { get; set; }
 
     [MinLength(1, ErrorMessage = "É necessário fornecer pelo menos uma imagem.")]
-    public string[]? Images { get; set; }
+    public List<string>? Images { get; set; }
 
     [RegularExpression("^(game|pack)$", ErrorMessage = "O tipo deve ser 'game' ou 'pack'.")]
     public string? Type { get; set; }

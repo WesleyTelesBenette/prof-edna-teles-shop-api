@@ -21,7 +21,7 @@ public class ProductPostDTO
 
     [Required(ErrorMessage = "Pelo menos uma imagem é obrigatória.")]
     [MinLength(1, ErrorMessage = "É necessário fornecer pelo menos uma imagem.")]
-    public string[] Images { get; set; }
+    public List<string> Images { get; set; }
 
     [Required(ErrorMessage = "O tipo é obrigatório.")]
     [RegularExpression("^(game|pack)$", ErrorMessage = "O tipo deve ser 'game' ou 'pack'.")]

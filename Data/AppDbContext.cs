@@ -13,21 +13,16 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Category>()
-            .HasIndex(c => c.Name)
-            .IsUnique();
-
         modelBuilder.Entity<Product>()
             .HasMany(p => p.Categories)
-            .WithOne()
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithMany(c => c.Products)
+            .UsingEntity(j => j.ToTable("prof_product_category"));
 
         modelBuilder.Entity<User>()
             .HasMany(u => u.Products)
-            .WithOne()
-            .OnDelete(DeleteBehavior.Cascade);
+            .WithMany(p => p.Users)
+            .UsingEntity(j => j.ToTable("prof_product_user"));
 
         base.OnModelCreating(modelBuilder);
     }
 }
-

@@ -27,7 +27,7 @@ public class Product
 
     [Required(ErrorMessage = "Pelo menos uma imagem é obrigatória.")]
     [MinLength(1, ErrorMessage = "É necessário fornecer pelo menos uma imagem.")]
-    public string[] Images { get; set; }
+    public List<string> Images { get; set; }
 
     [Required(ErrorMessage = "O tipo é obrigatório.")]
     [RegularExpression("^(game|pack)$", ErrorMessage = "O tipo deve ser 'game' ou 'pack'.")]
@@ -42,11 +42,13 @@ public class Product
     [Range(0, long.MaxValue, ErrorMessage = "O TotalGames deve ser um número positivo.")]
     public long? TotalGames { get; set; }
 
-    public ICollection<Product>? IncludeGames { get; set; }
+    public ICollection<Product> IncludeGames { get; set; } = [];
 
     [Required(ErrorMessage = "Pelo menos uma categoria é obrigatória.")]
     [MinLength(1, ErrorMessage = "É necessário fornecer ao menos uma categoria.")]
     public ICollection<Category> Categories { get; set; } = [];
+
+    public ICollection<User> Users { get; set; } = [];
 
     public Product() { }
 
