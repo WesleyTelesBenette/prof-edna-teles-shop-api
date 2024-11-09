@@ -53,11 +53,11 @@ public class ExceptionMiddleware
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = (int)statusCode;
 
-        return context.Response.WriteAsync(new
+        return context.Response.WriteAsJsonAsync(new
         {
             context.Response.StatusCode,
             exception.Message
-        }.ToString() ?? "");
+        });
     }
 
 }
