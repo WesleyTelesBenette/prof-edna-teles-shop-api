@@ -97,6 +97,84 @@ public class ProductService : IProductService
         }
     }
 
+    public async Task<ICollection<ProductResponseDTO>> GetRecentProducts(int size)
+    {
+        try
+        {
+            ICollection<Product> products = await _productRep.GetRecentProducts(size);
+            ICollection<ProductResponseDTO> productsDTOs = [];
+
+            foreach (var product in products)
+            {
+                productsDTOs.Add(new(product));
+            }
+
+            return productsDTOs;
+        }
+        catch (SqlException ex)
+        {
+            throw new Exception("Falha ao acessar o banco de dados. Verifique a conectividade.", ex);
+        }
+        catch (TimeoutException ex)
+        {
+            throw new TimeoutException("O tempo de execução excedeu o limite permitido.", ex);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Ocorreu um erro ao tentar buscar os produtos recentes.", e);
+        }
+    }
+
+    public async Task<ICollection<ProductResponseDTO>> GetRandomProducts(int size)
+    {
+        try
+        {
+            ICollection<Product> products = await _productRep.GetRandomProducts(size);
+            ICollection<ProductResponseDTO> productsDTOs = [];
+
+            foreach (var product in products)
+            {
+                productsDTOs.Add(new(product));
+            }
+
+            return productsDTOs;
+        }
+        catch (SqlException ex)
+        {
+            throw new Exception("Falha ao acessar o banco de dados. Verifique a conectividade.", ex);
+        }
+        catch (TimeoutException ex)
+        {
+            throw new TimeoutException("O tempo de execução excedeu o limite permitido.", ex);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Ocorreu um erro ao tentar buscar os produtos aleatórios.", e);
+        }
+    }
+
+    public async Task<List<string?>> GetAllTypeProducts()
+    {
+        try
+        {
+           List<string?> productsTypes = await _productRep.GetAllTypeProducts();
+
+            return productsTypes;
+        }
+        catch (SqlException ex)
+        {
+            throw new Exception("Falha ao acessar o banco de dados. Verifique a conectividade.", ex);
+        }
+        catch (TimeoutException ex)
+        {
+            throw new TimeoutException("O tempo de execução excedeu o limite permitido.", ex);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Ocorreu um erro ao tentar buscar os produtos.", e);
+        }
+    }
+
     public async Task<ProductResponseDTO?> CreateProductAsync(ProductPostDTO product)
     {
         try

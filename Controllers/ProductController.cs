@@ -35,6 +35,36 @@ public class ProductController : ControllerBase
             : NotFound();
     }
 
+    [HttpGet("recent/{size}")]
+    public async Task<IActionResult> GetRecentProducts(int size)
+    {
+        var products = await _productService.GetRecentProducts(size);
+
+        return (products != null)
+            ? Ok(products)
+            : NoContent();
+    }
+
+    [HttpGet("random/{size}")]
+    public async Task<IActionResult> GetRandomProducts(int size)
+    {
+        var products = await _productService.GetRandomProducts(size);
+
+        return (products != null)
+            ? Ok(products)
+            : NoContent();
+    }
+
+    [HttpGet("types")]
+    public async Task<IActionResult> GetAllTypeProducts()
+    {
+        var productsTypes = await _productService.GetAllTypeProducts();
+
+        return (productsTypes != null)
+            ? Ok(productsTypes)
+            : NoContent();
+    }
+
     [HttpPost]
     public async Task<IActionResult> CreateProductAsync([FromBody] ProductPostDTO newProduct)
     {

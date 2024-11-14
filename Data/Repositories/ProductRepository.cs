@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using prof_edna_teles_shop_api.Data.Repositories.Interfaces;
+using prof_edna_teles_shop_api.DTOs;
 using prof_edna_teles_shop_api.Models;
 
 namespace prof_edna_teles_shop_api.Data.Repositories;
@@ -35,6 +36,34 @@ public class ProductRepository : IProductRepository
             .AsNoTracking()
             .Where(p => ids.Contains(p.Id))
             .OrderBy(p => p.Id)
+            .ToListAsync();
+    }
+
+    public async Task<ICollection<Product>> GetRecentProducts(int size)
+    {
+        return await _db.Products
+            .AsNoTracking()
+            .OrderByDescending(p => p.Id)
+            .Take(size)
+            .ToListAsync();
+    }
+
+    public async Task<ICollection<Product>> GetRandomProducts(int size)
+    {
+        return await _db.Products
+           .OrderBy(p => Guid.NewGuid())
+           .Take(size)
+           .OrderBy(p => p.Id)
+           .ToListAsync();
+    }
+
+    public async Task<List<string?>> GetAllTypeProducts()
+    {
+        return await _db.Products
+            .AsNoTracking()
+            .Select(p => p.GameType)
+            .Where(t => t != null)
+            .Distinct()
             .ToListAsync();
     }
 
