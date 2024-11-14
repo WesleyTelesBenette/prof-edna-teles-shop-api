@@ -11,7 +11,4 @@ public class CategoryPutDTO
 
     [StringLength(100, ErrorMessage = "O nome não pode ter mais de 100 caracteres.")]
     public string Name { get; set; }
-
-    [Url(ErrorMessage = "A URL da imagem deve ser válida.")]
-    public string ImageUrl { get; set; }
 }

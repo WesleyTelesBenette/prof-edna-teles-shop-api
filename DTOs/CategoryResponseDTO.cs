@@ -8,14 +8,11 @@ public class CategoryResponseDTO
 
     public string Name { get; set; }
 
-    public string ImageUrl { get; set; }
-
     public CategoryResponseDTO() {}
 
     public CategoryResponseDTO(Category category)
     {
         Id = category.Id;
         Name = category.Name;
-        ImageUrl = category.ImageUrl;
     }
 }

@@ -16,10 +16,6 @@ public class Category
     [StringLength(100, ErrorMessage = "O nome não pode ter mais de 100 caracteres.")]
     public string Name { get; set; }
 
-    [Required(ErrorMessage = "A URL da imagem é obrigatória.")]
-    [Url(ErrorMessage = "A URL da imagem deve ser válida.")]
-    public string ImageUrl { get; set; }
-
     public ICollection<Product> Products { get; set; } = [];
 
     public Category() { }
@@ -27,6 +23,5 @@ public class Category
     public Category(CategoryPostDTO category)
     {
         Name = category.Name;
-        ImageUrl = category.ImageUrl;
     }
 }

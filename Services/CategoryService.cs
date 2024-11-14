@@ -140,7 +140,6 @@ public class CategoryService : ICategoryService
             if (categoryFound != null)
             {
                 categoryFound.Name = category.Name ?? categoryFound.Name;
-                categoryFound.ImageUrl = category.ImageUrl ?? categoryFound.ImageUrl;
 
                 return await _categoryRep.UpdateCategoryAsync(categoryFound);
             }

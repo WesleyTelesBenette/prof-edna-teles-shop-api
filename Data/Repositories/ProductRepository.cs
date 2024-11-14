@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using prof_edna_teles_shop_api.Data.Repositories.Interfaces;
-using prof_edna_teles_shop_api.DTOs;
 using prof_edna_teles_shop_api.Models;
 
 namespace prof_edna_teles_shop_api.Data.Repositories;
