@@ -1,4 +1,5 @@
 ﻿using prof_edna_teles_shop_api.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace prof_edna_teles_shop_api.DTOs;
 
@@ -15,6 +16,8 @@ public class ProductMiniResponseDTO
 
     public string Type { get; set; }
 
+    public string? GameType { get; set; }
+
     public ProductMiniResponseDTO() {}
 
     public ProductMiniResponseDTO(Product product)
@@ -25,5 +28,6 @@ public class ProductMiniResponseDTO
         CategoriesIds = product.Categories.Select(c => c.Id).ToList();
         ImageCover = product.Images[0];
         Type = product.Type;
+        GameType = product.GameType;
     }
 }

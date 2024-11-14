@@ -35,4 +35,7 @@ public class ProductPostDTO
 
     [Range(0, long.MaxValue, ErrorMessage = "O TotalGames deve ser um número positivo.")]
     public long? TotalGames { get; set; }
+
+    [StringLength(50, ErrorMessage = "O tipo do jogo não pode ter mais de 50 caracteres.")]
+    public string? GameType { get; set; }
 }

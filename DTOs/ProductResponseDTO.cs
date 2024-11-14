@@ -1,4 +1,5 @@
 ﻿using prof_edna_teles_shop_api.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace prof_edna_teles_shop_api.DTOs;
 
@@ -22,6 +23,8 @@ public class ProductResponseDTO
 
     public long? TotalGames { get; set; }
 
+    public string? GameType { get; set; }
+
     public ICollection<long>? IncludeGames { get; set; }
 
     public ICollection<long> CategoriesIds { get; set; }
@@ -41,5 +44,6 @@ public class ProductResponseDTO
         TotalGames = product.TotalGames;
         IncludeGames = product.IncludeGames?.Select(g => g.Id).ToList();
         CategoriesIds = product.Categories.Select(c => c.Id).ToList();
+        GameType = product.GameType;
     }
 }
