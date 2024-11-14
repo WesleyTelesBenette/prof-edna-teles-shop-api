@@ -53,7 +53,6 @@ public class ProductRepository : IProductRepository
         return await _db.Products
            .OrderBy(p => Guid.NewGuid())
            .Take(size)
-           .OrderBy(p => p.Id)
            .ToListAsync();
     }
 
