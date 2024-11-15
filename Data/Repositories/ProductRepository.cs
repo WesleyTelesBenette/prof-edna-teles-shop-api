@@ -50,6 +50,7 @@ public class ProductRepository : IProductRepository
     public async Task<ICollection<Product>> GetRandomProducts(int size)
     {
         return await _db.Products
+           .AsNoTracking()
            .OrderBy(p => Guid.NewGuid())
            .Take(size)
            .ToListAsync();

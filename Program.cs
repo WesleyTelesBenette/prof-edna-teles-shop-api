@@ -37,13 +37,14 @@ builder.Services.AddSwaggerGen(c =>
 
 //Database
 var connectionString = builder.Configuration.GetConnectionString("DefaultDatabase");
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContextFactory<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 
 //Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<IPageRepository, PageRepository>();
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
