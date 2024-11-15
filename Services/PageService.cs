@@ -6,17 +6,29 @@ namespace prof_edna_teles_shop_api.Services;
 
 public class PageService : IPageService
 {
-    private readonly IPageRepository _pageRep;
-    public PageService(IPageRepository pageRep)
+    private readonly IProductRepository _productRep;
+    private readonly ICategoryRepository _categoryRep;
+
+    public PageService(IProductRepository productRep, ICategoryRepository categoryRep)
     {
-        _pageRep = pageRep;
+        _productRep = productRep;
+        _categoryRep = categoryRep;
     }
 
     public async Task<PageResponseDTO?> GetHomePageContent()
     {
-        PageResponseDTO pageContent = await _pageRep.GetHomePageContent();
-        pageContent.Name = "Home Page";
-        pageContent.Version = 1;
+        PageResponseDTO pageContent = new()
+        {
+            Name = "Home Page",
+            Version = 1
+        };
+
+        pageContent.ProductsMini[0] = (await _productRep.GetRecentProducts(10)).Select(p => new ProductMiniResponseDTO(p)).ToArray();
+        pageContent.ProductsMini[1] = (await _productRep.GetRandomProducts(10)).Select(p => new ProductMiniResponseDTO(p)).ToArray();
+        pageContent.ProductsMini[2] = (await _productRep.GetRandomProducts(10)).Select(p => new ProductMiniResponseDTO(p)).ToArray();
+
+        pageContent.Categories[0] = (await _categoryRep.GetAllCategoriesAsync()).Select(p => new CategoryResponseDTO(p)).ToArray();
+        pageContent.Strings[0] = [.. (await _productRep.GetAllTypeProducts())];
 
         return pageContent;
     }

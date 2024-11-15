@@ -5,15 +5,13 @@ public class PageResponseDTO
     public string Name { get; set; }
     public short Version { get; set; }
 
-    public byte ProductMiniRange { get; set; }
-    public List<ProductMiniResponseDTO> ProductsMini { get; set; } = [];
+    public string[][] Strings { get; set; } = [];
+
+    public ProductMiniResponseDTO[][] ProductsMini { get; set; } = [];
     
-    public byte ProductRange { get; set; }
-    public List<ProductResponseDTO> Products { get; set; } = [];
+    public ProductResponseDTO[][] Products { get; set; } = [];
 
-    public byte CategoryRange { get; set; }
-    public List<CategoryResponseDTO> Categories { get; set; } = [];
+    public CategoryResponseDTO[][] Categories { get; set; } = [];
 
-    public byte UserRange { get; set; }
-    public List<UserResponseDTO> Users { get; set; } = [];
+    public UserResponseDTO[][] Users { get; set; } = [];
 }
