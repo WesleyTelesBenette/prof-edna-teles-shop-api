@@ -45,6 +45,28 @@ public class ProductService : IProductService
         }
     }
 
+    public async Task<ProductFilteredResponseDTO?> GetFilteredPaginatedProducts(string term, int length, int page)
+    {
+        try
+        {
+            string[] terms = term.Split('+', StringSplitOptions.RemoveEmptyEntries);
+
+            return await _productRep.GetFilteredPaginatedProducts(terms, length, page);
+        }
+        catch (SqlException ex)
+        {
+            throw new Exception("Falha ao acessar o banco de dados. Verifique a conectividade.", ex);
+        }
+        catch (TimeoutException ex)
+        {
+            throw new TimeoutException("O tempo de execução excedeu o limite permitido.", ex);
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Ocorreu um erro ao tentar buscar os produtos.", e);
+        }
+    }
+
     public async Task<ProductResponseDTO?> GetProductByIdAsync(long id)
     {
         try

@@ -5,6 +5,7 @@ namespace prof_edna_teles_shop_api.Services.Interfaces;
 public interface IProductService
 {
     public Task<ICollection<ProductResponseDTO>> GetAllProductsAsync();
+    public Task<ProductFilteredResponseDTO?> GetFilteredPaginatedProducts(string term, int length, int page);
     public Task<ProductResponseDTO?> GetProductByIdAsync(long id);
     public Task<ICollection<ProductResponseDTO>> GetProductsByIdsAsync(HashSet<long> ids);
     public Task<ICollection<ProductResponseDTO>> GetRecentProducts(int size);

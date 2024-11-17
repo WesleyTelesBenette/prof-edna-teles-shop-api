@@ -1,17 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using prof_edna_teles_shop_api.Data.Repositories.Interfaces;
+using prof_edna_teles_shop_api.DTOs;
 using prof_edna_teles_shop_api.Models;
+using System.Globalization;
+using System.Text;
 
 namespace prof_edna_teles_shop_api.Data.Repositories;
 
 public class ProductRepository : IProductRepository
 {
-    private readonly AppDbContext _db;
+    IDbContextFactory<AppDbContext> _context;
+    public readonly  AppDbContext _db;
 
-    public ProductRepository(AppDbContext db)
+    public ProductRepository(IDbContextFactory<AppDbContext> context)
     {
-        _db = db;
+        _db = context.CreateDbContext();
+        _context = context;
     }
 
     public async Task<ICollection<Product>> GetAllProductsAsync()
@@ -20,6 +25,56 @@ public class ProductRepository : IProductRepository
             .AsNoTracking()
             .OrderBy(p => p.Id)
             .ToListAsync();
+    }
+
+    public async Task<ProductFilteredResponseDTO?> GetFilteredPaginatedProducts(string[] terms, int length, int page)
+    {
+        var products = await _db.Products
+            .AsNoTracking()
+            .ToListAsync();
+
+        var productsFound = products
+            .Where(p => terms.Any(t =>
+                NormalizeString(p.Name).Contains(NormalizeString(t)) ||
+                NormalizeString(p.Description).Contains(NormalizeString(t))
+            ))
+            .ToList();
+
+        if (productsFound.Count > 0)
+        {
+            var productList = productsFound
+                .Skip(length * (page - 1))
+                .Take(length)
+                .Select(p => new ProductMiniResponseDTO(p))
+                .ToList();
+
+            return new ProductFilteredResponseDTO()
+            {
+                Length = productsFound.Count,
+                Products = productList
+            };
+        }
+
+        return null;
+    }
+
+    private static string NormalizeString(string input)
+    {
+        string normalized = input.Normalize(NormalizationForm.FormD);
+        return new string(normalized
+            .Where(c => CharUnicodeInfo.GetUnicodeCategory(c) != UnicodeCategory.NonSpacingMark)
+            .ToArray())
+            .Normalize(NormalizationForm.FormC)
+            .ToLower();
+    }
+
+    public async Task<int> GetFilteredPaginatedProductsLength(string[] terms)
+    {
+        return await _db.Products
+            .Where(p => terms.Any(t =>
+                p.Name.Contains(t) ||
+                p.Description.Contains(t)))
+            .CountAsync();
     }
 
     public async Task<Product?> GetProductByIdAsync(long id)

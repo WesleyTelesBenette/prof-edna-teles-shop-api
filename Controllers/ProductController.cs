@@ -25,6 +25,16 @@ public class ProductController : ControllerBase
             : NoContent();
     }
 
+    [HttpGet("filter/{term}/{length}/{page}")]
+    public async Task<IActionResult> GetFilteredPaginatedProducts(string term, int length, int page)
+    {
+        var filtered = await _productService.GetFilteredPaginatedProducts(term, length, page);
+
+        return (filtered != null)
+            ? Ok(filtered)
+            : NoContent();
+    }
+
     [HttpGet("{id}", Name = "GetProductByIdAsync")]
     public async Task<IActionResult> GetProductByIdAsync(long id)
     {
