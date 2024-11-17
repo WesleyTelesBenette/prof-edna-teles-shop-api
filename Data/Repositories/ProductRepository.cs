@@ -34,9 +34,10 @@ public class ProductRepository : IProductRepository
             .ToListAsync();
 
         var productsFound = products
-            .Where(p => terms.Any(t =>
+            .Where(p => terms.All(t =>
                 NormalizeString(p.Name).Contains(NormalizeString(t)) ||
-                NormalizeString(p.Description).Contains(NormalizeString(t))
+                NormalizeString(p.Description).Contains(NormalizeString(t)) ||
+                p.Categories.All(c => NormalizeString(c.Name).Contains(NormalizeString(t)))
             ))
             .ToList();
 
