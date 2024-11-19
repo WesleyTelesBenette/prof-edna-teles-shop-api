@@ -37,7 +37,7 @@ public class ProductRepository : IProductRepository
             .Where(p => terms.All(t =>
                 NormalizeString(p.Name).Contains(NormalizeString(t)) ||
                 NormalizeString(p.Description).Contains(NormalizeString(t)) ||
-                p.Categories.All(c => NormalizeString(c.Name).Contains(NormalizeString(t)))
+                p.Categories.Any(c => NormalizeString(c.Name).Contains(NormalizeString(t)))
             ))
             .ToList();
 
