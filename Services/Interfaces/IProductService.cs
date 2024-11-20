@@ -8,8 +8,8 @@ public interface IProductService
     public Task<ProductFilteredResponseDTO?> GetFilteredPaginatedProducts(string term, int length, int page);
     public Task<ProductResponseDTO?> GetProductByIdAsync(long id);
     public Task<ICollection<ProductResponseDTO>> GetProductsByIdsAsync(HashSet<long> ids);
-    public Task<ICollection<ProductResponseDTO>> GetRecentProducts(int size);
-    public Task<ICollection<ProductResponseDTO>> GetRandomProducts(int size);
+    public Task<ICollection<ProductMiniResponseDTO>> GetRecentProducts(int size);
+    public Task<ICollection<ProductMiniResponseDTO>> GetRandomProducts(int size);
     public Task<List<string?>> GetAllTypeProducts();
     public Task<ProductResponseDTO?> CreateProductAsync(ProductPostDTO product);
     public Task<bool> UpdateProductAsync(ProductPutDTO product);

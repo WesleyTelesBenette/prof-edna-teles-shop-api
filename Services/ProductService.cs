@@ -119,12 +119,12 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<ICollection<ProductResponseDTO>> GetRecentProducts(int size)
+    public async Task<ICollection<ProductMiniResponseDTO>> GetRecentProducts(int size)
     {
         try
         {
             ICollection<Product> products = await _productRep.GetRecentProducts(size);
-            ICollection<ProductResponseDTO> productsDTOs = [];
+            ICollection<ProductMiniResponseDTO> productsDTOs = [];
 
             foreach (var product in products)
             {
@@ -147,12 +147,12 @@ public class ProductService : IProductService
         }
     }
 
-    public async Task<ICollection<ProductResponseDTO>> GetRandomProducts(int size)
+    public async Task<ICollection<ProductMiniResponseDTO>> GetRandomProducts(int size)
     {
         try
         {
             ICollection<Product> products = await _productRep.GetRandomProducts(size);
-            ICollection<ProductResponseDTO> productsDTOs = [];
+            ICollection<ProductMiniResponseDTO> productsDTOs = [];
 
             foreach (var product in products)
             {
